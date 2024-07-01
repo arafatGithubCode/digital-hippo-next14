@@ -9,8 +9,8 @@ import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
-  AuthCredentialValidator,
-  TAuthCredentialValidator,
+  AuthCredentialsValidator,
+  TAuthCredentialsValidator,
 } from "@/lib/validators/account-creadentials-validator";
 import { trpc } from "@/trpc/client";
 
@@ -19,14 +19,11 @@ const Page = () => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<TAuthCredentialValidator>({
-    resolver: zodResolver(AuthCredentialValidator),
+  } = useForm<TAuthCredentialsValidator>({
+    resolver: zodResolver(AuthCredentialsValidator),
   });
 
-  const { data } = trpc.anyApiRoute.useQuery();
-  console.log(data);
-
-  const onSubmit = ({ email, password }: TAuthCredentialValidator) => {};
+  const onSubmit = ({ email, password }: TAuthCredentialsValidator) => {};
 
   return (
     <>
