@@ -23,7 +23,11 @@ const Page = () => {
     resolver: zodResolver(AuthCredentialsValidator),
   });
 
-  const onSubmit = ({ email, password }: TAuthCredentialsValidator) => {};
+  const { mutate, isPending } = trpc.auth.createPayloadUser.useMutation({});
+
+  const onSubmit = ({ email, password }: TAuthCredentialsValidator) => {
+    mutate({ email, password });
+  };
 
   return (
     <>
@@ -65,6 +69,7 @@ const Page = () => {
                   <Label htmlFor="password">Password</Label>
                   <Input
                     {...register("password")}
+                    type="password"
                     placeholder="Password"
                     className={cn({
                       "focus-visible:ring-red-500": errors.password,
@@ -72,7 +77,7 @@ const Page = () => {
                   />
                 </div>
 
-                <Button type="submit">Sign in</Button>
+                <Button type="submit">Sign up</Button>
               </div>
             </form>
           </div>
