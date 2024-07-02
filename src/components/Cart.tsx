@@ -13,19 +13,34 @@ import Link from "next/link";
 import Image from "next/image";
 import { buttonVariants } from "./ui/button";
 import { formatPrice } from "@/lib/utils";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 const Cart = () => {
   const itemCount = 10;
   const fee = 5;
   return (
     <Sheet>
-      <SheetTrigger className="group -m-2 flex items-center p-2">
-        <ShoppingCart
-          aria-hidden="true"
-          className="h-6 w-6 flex-shrink-0 text-gray-400 group-hover:text-gray-500"
-        />
-        <Badge variant="destructive">0</Badge>
-      </SheetTrigger>
+      <TooltipProvider>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <SheetTrigger className="group -m-2 flex items-center p-2">
+              <ShoppingCart
+                aria-hidden="true"
+                className="h-6 w-6 flex-shrink-0 text-gray-400 group-hover:text-gray-500"
+              />
+              <Badge variant="destructive">0</Badge>
+            </SheetTrigger>
+          </TooltipTrigger>
+          <TooltipContent className={buttonVariants({ variant: "secondary" })}>
+            <p>Click to see details</p>
+          </TooltipContent>
+        </Tooltip>
+      </TooltipProvider>
       <SheetContent className="flex w-full flex-col pr-0 sm:max-w-lg">
         <SheetHeader className="space-y-2.5 pr-6">
           <SheetTitle>Cart ({itemCount})</SheetTitle>
