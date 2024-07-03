@@ -1,3 +1,5 @@
+"use client";
+
 import { ShoppingCart } from "lucide-react";
 import {
   Sheet,
@@ -19,10 +21,28 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { useCart } from "@/hooks/use-cart";
+import { ScrollArea } from "./ui/scroll-area";
+import CartItem from "./CartItem";
+import { useEffect, useState } from "react";
 
 const Cart = () => {
-  const itemCount = 10;
-  const fee = 5;
+  const { items } = useCart();
+  const itemCount = items.length;
+
+  const [isMounted, setIsMounted] = useState<boolean>(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  const cartTotal = items.reduce(
+    (total, { product }) => total + product.price,
+    0
+  );
+
+  const fee = 1;
+
   return (
     <Sheet>
       <TooltipProvider>
@@ -33,7 +53,7 @@ const Cart = () => {
                 aria-hidden="true"
                 className="h-6 w-6 flex-shrink-0 text-gray-400 group-hover:text-gray-500"
               />
-              <Badge variant="destructive">0</Badge>
+              <Badge variant="destructive">{isMounted ? itemCount : 0}</Badge>
             </SheetTrigger>
           </TooltipTrigger>
           <TooltipContent className={buttonVariants({ variant: "secondary" })}>
@@ -48,8 +68,11 @@ const Cart = () => {
         {itemCount > 0 ? (
           <>
             <div className="flex w-full flex-col pr-6">
-              {/* TODO: cart logic */}
-              cart Items
+              <ScrollArea className="h-[300px] w-full rounded-md pr-4">
+                {items.map(({ product }) => (
+                  <CartItem key={product.id} product={product} />
+                ))}
+              </ScrollArea>
             </div>
             <div className="space-y-4 pr-6">
               <Separator />
@@ -64,7 +87,7 @@ const Cart = () => {
                 </div>
                 <div className="flex">
                   <span className="flex-1">Total</span>
-                  <span>{fee}</span>
+                  <span>{cartTotal + fee}</span>
                 </div>
               </div>
 
