@@ -1,8 +1,5 @@
-<<<<<<< HEAD
 "use client";
 
-=======
->>>>>>> c772960700ec356e60f45879cb4253d9e434a03a
 import { cn } from "@/lib/utils";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useEffect, useState } from "react";
